@@ -5,7 +5,7 @@ const db = require('../db/firebase');
 const parsePageSpeedResults = require('../util/helpers').parsePageSpeedResults;
 
 const key = process.env.PAGESPEED_API_KEY;
-const targetUrl = 'https://dev.autobahn.blinds.com';
+const targetUrl = 'https://www.blinds.com';
 const baseUrl = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
 const url = `${baseUrl}?strategy=mobile&url=${targetUrl}&key=${key}`;
 
