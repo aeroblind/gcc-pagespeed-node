@@ -1,5 +1,5 @@
 var admin = require("firebase-admin");
-var serviceAccount = require('../gcc-pagespeed-firebase-firebase-adminsdk-qovuf-ec8992d8e3.json');
+var serviceAccount = require('../gcc-pagespeed-firebase-e73ab7c1aabe.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
