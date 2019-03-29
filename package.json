@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app",
+    "debug": "DEBUG=* node app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,9 +23,9 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "cron": "^1.7.0",
-    "debug": "^4.1.1",
     "express": "^4.16.4",
     "firebase-admin": "^7.1.1",
-    "dotenv": "^7.0.0"
+    "dotenv": "^7.0.0",
+    "debug": "^4.1.1"
   }
 }

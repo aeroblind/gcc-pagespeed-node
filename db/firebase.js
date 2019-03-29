@@ -24,6 +24,21 @@ function writePageSpeedPerformance(data) {
   });
 }
 
+function writePageSpeedPerformanceByUrl(websiteId, data) {
+  const urlRef = db.ref(`performance/${websiteId}/scores`);
+  var newScoreRef = urlRef.push();
+  return new Promise((resolve, reject) => {
+    newScoreRef.set(data)
+    .then(() => {
+      resolve(data);
+    })
+    .catch(err => {
+      reject(err);
+    })
+  });
+}
+
 module.exports = {
   writePageSpeedPerformance,
+  writePageSpeedPerformanceByUrl,
 }

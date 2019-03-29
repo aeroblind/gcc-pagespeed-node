@@ -13,6 +13,18 @@ const createPageSpeedPerformanceScore = (req, res) => {
   })
 }
 
+const createPageSpeedPerformanceScoreForAllUrls = (req, res) => {
+  debug('createPageSpeedPerformanceScoreForAllUrls');
+  pageSpeedController.createPageSpeedPerformanceScoreForAllUrls()
+  .then((data) => {
+    res.status(200).json(data);
+  })
+  .catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+  })
+}
+
 const start = (req, res) => {
   debug('start');
   pageSpeedController.startCron()
@@ -27,6 +39,7 @@ const stop = (req, res) => {
 
 module.exports = {
   createPageSpeedPerformanceScore,
+  createPageSpeedPerformanceScoreForAllUrls,
   start,
   stop,
 }
