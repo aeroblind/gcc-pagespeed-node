@@ -1,7 +1,7 @@
 cron:
 - description: "during work hours"
   url: /api/pagespeed/createPageSpeedPerformanceScoreForAllUrls
-  schedule: every 1 minutes from 7:00 to 18:00
+  schedule: every 1 minutes from 7:00 to 19:00
   timezone: America/Chicago
 # - description: "during non-work hours"
 #   url: /api/pagespeed/createPageSpeedPerformanceScoreForAllUrls
