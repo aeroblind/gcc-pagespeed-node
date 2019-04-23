@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node app",
     "debug": "DEBUG=* node app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "set": "gcloud config set project gcc-pagespeed-firebase-235920",
+    "deploy": "npm run set && gcloud app deploy --quiet",
+    "deploy-cron": "gcloud app deploy cron.yaml --quiet"
   },
   "repository": {
     "type": "git",

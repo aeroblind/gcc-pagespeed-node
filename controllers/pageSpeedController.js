@@ -39,24 +39,35 @@ const createPageSpeedPerformanceScore = async function() {
     })
 }
 
+const filterOutAxiosErrors = function (url) {
+  return axios.get(url)
+  .catch(_ => {
+    //  Do Nothing
+  });
+}
+
+
 const createPageSpeedPerformanceScoreForAllUrls = async function() {
   debug('createPageSpeedPerformanceScoreForAllUrls');
   const promises = [];
+  const dbPromises = []
   websites.map(website => {
     const url = createPageSpeedUrl(website.url);
-    const promise = axios.get(url)
+    const promise = filterOutAxiosErrors(url);
     promises.push(promise);
   });
-  
+
   return Promise.all(promises)
-    .then(results => {
-      const dbPromises = []
-      results.map( (result, index) => {
+  .then(results => {
+    results.map( (result, index) => {
+      if (result) {
         const data = parsePageSpeedResults(result);
         dbPromises.push(db.writePageSpeedPerformanceByUrl(websites[index].id, data))
-      })
-      return Promise.all(dbPromises);
+      }
     })
+    return Promise.all(dbPromises);
+  })
+  .catch(err => console.log(`Error - createPageSpeedPerformanceScoreForAllUrls: ${err}`));
 }
 
 const onTick = () => {
