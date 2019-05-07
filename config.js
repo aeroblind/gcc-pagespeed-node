@@ -19,6 +19,10 @@ module.exports = {
       url: 'http://uat.autobahn.blinds.com',
     },
     {
+      id: 'bcom-uat-no-tags',
+      url: 'http://uat.autobahn.blinds.com?usedtm=false',
+    },
+    {
       id: 'bcom-prod-plp',
       url: 'https://www.blinds.com/c/faux-wood-blinds/40',
     },
