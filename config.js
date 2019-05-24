@@ -64,7 +64,7 @@ module.exports = {
     },
     {
       id: 'lowes-pip',
-      url: 'https://blinds.lowes.com/product/detail.action?sku=Levolor-Real-Wood-Blinds&groupName=Wood-Blinds&xdata-width=24&xdata-height=36,
+      url: 'https://blinds.lowes.com/product/detail.action?sku=Levolor-Real-Wood-Blinds&groupName=Wood-Blinds&xdata-width=24&xdata-height=36',
     },
     {
       id: 'select-home',
@@ -76,7 +76,7 @@ module.exports = {
     },
     {
       id: 'select-pip',
-      url: 'https://www.selectblinds.com/woodblinds/2-inch-premier-wood-blind.html,
+      url: 'https://www.selectblinds.com/woodblinds/2-inch-premier-wood-blind.html',
     },
     {
       id: 'bb-home',
