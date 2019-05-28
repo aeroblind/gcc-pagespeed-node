@@ -4,6 +4,3 @@ cron:
   schedule: every 5 minutes
   timezone: America/Chicago
   target: webapi
-# - description: "during non-work hours"
-#   url: /api/pagespeed/createPageSpeedPerformanceScoreForAllUrls
-#   schedule: every 10 minutes from 18:00 to 23:59
