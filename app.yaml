@@ -13,5 +13,5 @@
 
 # [START gae_quickstart_yaml]
 runtime: nodejs10
-service: gcc-pagespeed-webapi-node
+service: webapi
 # [END gae_quickstart_yaml]
