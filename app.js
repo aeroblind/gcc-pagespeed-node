@@ -12,6 +12,7 @@ const baseUrl = '/api'
 app.use(bodyParser.json());
 app.use(cors());
 app.use(`${baseUrl}/pageSpeed/`, routes.pageSpeedRoutes);
+app.get('/', (req, res) => res.send('Welcome to GCC Pagespeed Insights WebApi...'))
 
 app.listen(port, () => {
   console.log(`${new Date().toString()}: App listening on port ${port}!`)
