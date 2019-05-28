@@ -1,17 +1,20 @@
 
-function parsePageSpeedResults(res) {
-    const { audits, categories } = res.data.lighthouseResult;
-    let metrics = null;
-    try {
-      metrics = audits.metrics.details.items[0]
-    } catch (err) {
-      console.log("Metrics not found");
-      console.error(err);
+function parsePageSpeedResults(data) {
+
+    if (!data) {
+      return;
     }
+
+    const { fetchTime, audits, categories } = data.lighthouseResult;
+
+    if (!fetchTime || !audits || !categories) {
+      return;
+    }
+
     return {
-      fetchTime: res.data.lighthouseResult.fetchTime,
+      fetchTime: data.lighthouseResult.fetchTime,
       score: categories.performance.score,
-      metrics: metrics,
+      metrics: audits.metrics.details.items[0],
     }
 }
 

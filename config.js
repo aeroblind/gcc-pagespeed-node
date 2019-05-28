@@ -1,7 +1,7 @@
 
 
 module.exports = {
-  websites: [
+  gccWebsites: [
     {
       id: 'bcom-prod',
       url: 'https://www.blinds.com',
@@ -54,6 +54,8 @@ module.exports = {
       id: 'bcom-uat-pip',
       url: 'http://uat.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
     },
+  ],
+  competitorWebsites: [
     {
       id: 'lowes-home',
       url: 'https://blinds.lowes.com/',

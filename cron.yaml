@@ -1,6 +1,11 @@
 cron:
-- description: "Every 5 minutes"
-  url: /api/pagespeed/createPageSpeedPerformanceScoreForAllUrls
+- description: "GCC Websites - Every 5 minutes"
+  url: /api/pagespeed/createPageSpeedPerformanceScoreForGccWebsites
   schedule: every 5 minutes
+  timezone: America/Chicago
+  target: webapi
+- description: "Competitor Websites - Every 6 Hours"
+  url: /api/pagespeed/createPageSpeedPerformanceScoreForCompetitorWebsites
+  schedule: every 6 hours
   timezone: America/Chicago
   target: webapi

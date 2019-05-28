@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pageSpeedService = require('../services/pageSpeedService'); 
 
-router.get('/createPageSpeedPerformanceScoreForAllUrls', pageSpeedService.createPageSpeedPerformanceScoreForAllUrls);
-router.get('/test', pageSpeedService.test);
+router.get('/createPageSpeedPerformanceScoreForGccWebsites', pageSpeedService.createPageSpeedPerformanceScoreForGccWebsites);
+router.get('/createPageSpeedPerformanceScoreForCompetitorWebsites', pageSpeedService.createPageSpeedPerformanceScoreForCompetitorWebsites);
 
 module.exports = router;
