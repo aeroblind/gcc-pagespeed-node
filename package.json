@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app",
     "debug": "DEBUG=* node app",
-    "set": "gcloud config set project gcc-pagespeed-firebase-235920",
+    "set": "gcloud config set project mobile-performance-seo",
     "deploy": "npm run set && gcloud app deploy --quiet",
     "deploy-cron": "gcloud app deploy cron.yaml --quiet"
   },
