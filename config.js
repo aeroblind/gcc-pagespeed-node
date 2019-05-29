@@ -32,7 +32,7 @@ module.exports = {
     },
     {
       id: 'bcom-prod-plp-no-tags',
-      url: 'https://www.blinds.com/c/faux-wood-blinds/54/?usedtm=false',
+      url: 'https://www.blinds.com/c/faux-wood-blinds/54?usedtm=false',
     },
     {
       id: 'bcom-dev-plp',
