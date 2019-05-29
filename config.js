@@ -31,12 +31,12 @@ module.exports = {
       url: 'https://www.blinds.com/c/faux-wood-blinds/54',
     },
     {
-      id: 'bcom-prod-plp',
-      url: 'https://www.blinds.com/c/faux-wood-blinds/54',
+      id: 'bcom-prod-plp-no-tags',
+      url: 'https://www.blinds.com/c/faux-wood-blinds/54/?usedtm=false',
     },
     {
-      id: 'bcom-dev-plp-no-tags',
-      url: 'https://dev.autobahn.blinds.com/c/faux-wood-blinds/54/?usedtm=false',
+      id: 'bcom-dev-plp',
+      url: 'https://dev.autobahn.blinds.com/c/faux-wood-blinds/54',
     },
     {
       id: 'bcom-stage-plp',
@@ -45,6 +45,10 @@ module.exports = {
     {
       id: 'bcom-uat-plp',
       url: 'http://uat.autobahn.blinds.com/c/faux-wood-blinds/54',
+    },
+    {
+      id: 'bcom-prod-pip',
+      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
     },
     {
       id: 'bcom-prod-pip-no-tags',
