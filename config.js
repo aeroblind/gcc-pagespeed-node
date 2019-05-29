@@ -7,6 +7,10 @@ module.exports = {
       url: 'https://www.blinds.com',
     },
     {
+      id: 'bcom-prod-no-tags',
+      url: 'https://www.blinds.com/?usedtm=false',
+    },
+    {
       id: 'bcom-dev',
       url: 'https://dev.autobahn.blinds.com',
     },
@@ -27,8 +31,12 @@ module.exports = {
       url: 'https://www.blinds.com/c/faux-wood-blinds/54',
     },
     {
-      id: 'bcom-dev-plp',
-      url: 'https://dev.autobahn.blinds.com/c/faux-wood-blinds/54',
+      id: 'bcom-prod-plp',
+      url: 'https://www.blinds.com/c/faux-wood-blinds/54',
+    },
+    {
+      id: 'bcom-dev-plp-no-tags',
+      url: 'https://dev.autobahn.blinds.com/c/faux-wood-blinds/54/?usedtm=false',
     },
     {
       id: 'bcom-stage-plp',
@@ -39,8 +47,8 @@ module.exports = {
       url: 'http://uat.autobahn.blinds.com/c/faux-wood-blinds/54',
     },
     {
-      id: 'bcom-prod-pip',
-      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
+      id: 'bcom-prod-pip-no-tags',
+      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503439/?usedtm=false',
     },
     {
       id: 'bcom-dev-pip',
