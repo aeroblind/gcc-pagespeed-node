@@ -15,6 +15,7 @@ function parsePageSpeedResults(data) {
       fetchTime: data.lighthouseResult.fetchTime,
       score: categories.performance.score,
       metrics: audits.metrics.details.items[0],
+      raw: data,
     }
 }
 
