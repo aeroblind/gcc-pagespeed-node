@@ -33,11 +33,10 @@ const createPageSpeedPerformanceScoreForWebsites = async function(websites) {
   .then(results => {
     results.map( (result, index) => {
       if (result) {
-        const data = parsePageSpeedResults(result.data);
-        if (!data) {
+        if (!result.data) {
           return;
         }
-        dbPromises.push(db.writePageSpeedPerformanceByUrl(websites[index].id, data))
+        dbPromises.push(db.writePageSpeedPerformanceByUrl(websites[index].id, result.data))
       }
     })
     return Promise.all(dbPromises);

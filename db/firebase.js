@@ -6,30 +6,13 @@ admin.initializeApp({
   databaseURL: "https://mobile-performance-seo.firebaseio.com/"
 });
 
-// Get a database reference to our blog
-var db = admin.database();
-var ref = db.ref('performance');
-var scoresRef = ref.child('scores');
-
-function writePageSpeedPerformance(data) {
-  var newScoreRef = scoresRef.push();
-  return new Promise((resolve, reject) => {
-    newScoreRef.set(data)
-    .then(() => {
-      resolve(data);
-    })
-    .catch(err => {
-      reject(err);
-    })
-  });
-}
+// Get a firestore reference
+var firestore = admin.firestore();
 
 function writePageSpeedPerformanceByUrl(websiteId, data) {
-  const urlRef = db.ref(`performance/${websiteId}/scores`);
-  var newScoreRef = urlRef.push();
   return new Promise((resolve, reject) => {
-    newScoreRef.set(data)
-    .then(() => {
+    firestore.collection(websiteId).add(data)
+    .then((ref) => {
       resolve(data);
     })
     .catch(err => {
@@ -39,6 +22,5 @@ function writePageSpeedPerformanceByUrl(websiteId, data) {
 }
 
 module.exports = {
-  writePageSpeedPerformance,
   writePageSpeedPerformanceByUrl,
 }
