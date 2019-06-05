@@ -9,6 +9,16 @@ admin.initializeApp({
 // Get a firestore reference
 var firestore = admin.firestore();
 
+function handleSnapshot(snapshot) {
+  var scores = []
+  if (!snapshot.empty) {
+    snapshot.forEach(doc => {
+      scores.push(doc.data());
+    })
+  }
+  return scores;
+}
+
 function writePageSpeedPerformanceByUrl(websiteId, data) {
   return new Promise((resolve, reject) => {
     firestore.collection(websiteId).add(data)
@@ -21,6 +31,34 @@ function writePageSpeedPerformanceByUrl(websiteId, data) {
   });
 }
 
+function getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId) {
+  console.log('getPageSpeedPerformanceScoreForWebsite');
+  return new Promise((resolve, reject) => {
+    firestore.collection(websiteId)
+    .orderBy("lighthouseResult.fetchTime")
+    .startAt(startAt)
+    .select(
+      'lighthouseResult.fetchTime',
+      'lighthouseResult.audits.interactive',
+      'lighthouseResult.audits.speed-index',
+      'lighthouseResult.audits.first-cpu-idle',
+      'lighthouseResult.audits.first-contentful-paint',
+      'lighthouseResult.audits.first-meaningful-paint',
+      'lighthouseResult.categories.performance.score',
+      'lighthouseResult.categories.performance.auditRefs',
+    )
+    .get()
+    .then(snapshot => {
+      resolve(handleSnapshot(snapshot));
+    })
+    .catch(err => {
+      console.log(err);
+      reject(err);
+    })
+  });
+}
+
 module.exports = {
   writePageSpeedPerformanceByUrl,
+  getPageSpeedPerformanceScoreForWebsite,
 }

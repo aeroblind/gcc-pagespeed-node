@@ -26,7 +26,21 @@ const createPageSpeedPerformanceScoreForCompetitorWebsites = (req, res) => {
   })
 }
 
+const getPageSpeedPerformanceScoreForWebsite = async function(req, res) {
+  debug('getPageSpeedPerformanceScoreForWebsite');
+  const { startAt, endAt, websiteId } = req.query
+  if (!websiteId) {
+    res.sendStatus(400);
+  } else {
+    const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
+    res.status(200).json(scores);
+  }
+}
+
+
+getPageSpeedPerformanceScoreForWebsite
 module.exports = {
   createPageSpeedPerformanceScoreForGccWebsites,
   createPageSpeedPerformanceScoreForCompetitorWebsites,
+  getPageSpeedPerformanceScoreForWebsite
 }

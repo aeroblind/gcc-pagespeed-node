@@ -44,6 +44,14 @@ const createPageSpeedPerformanceScoreForWebsites = async function(websites) {
   .catch(err => console.log(`Error - createPageSpeedPerformanceScoreForWebsites: ${err}`));
 }
 
+const getPageSpeedPerformanceScoreForWebsite = function(startAt, endAt, websiteId) {
+  debug('createPageSpeedPerformanceScoreForWebsites');
+  return db.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
+}
+
+
+
 module.exports = {
-  createPageSpeedPerformanceScoreForWebsites
+  createPageSpeedPerformanceScoreForWebsites,
+  getPageSpeedPerformanceScoreForWebsite
 }
