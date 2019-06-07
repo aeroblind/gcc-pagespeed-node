@@ -56,8 +56,7 @@ function getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId) {
         reject(err);
       })
     }
-    
-  });
+  );
 }
 
 module.exports = {
