@@ -11,6 +11,10 @@ module.exports = {
       url: 'https://www.blinds.com/?usedtm=false',
     },
     {
+      id: 'bcom-uat-no-tags-web-fonts',
+      url: 'https://www.blinds.com/?nowebfonts=true&usedtm=false',
+    },
+    {
       id: 'bcom-dev',
       url: 'https://dev.autobahn.blinds.com',
     },
