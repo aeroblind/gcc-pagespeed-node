@@ -11,7 +11,7 @@ module.exports = {
       url: 'https://www.blinds.com/?usedtm=false',
     },
     {
-      id: 'bcom-uat-no-tags-web-fonts',
+      id: 'bcom-prod-no-tags-web-fonts',
       url: 'https://www.blinds.com/?nowebfonts=true&usedtm=false',
     },
     {
