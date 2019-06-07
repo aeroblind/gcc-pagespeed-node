@@ -12,7 +12,7 @@ module.exports = {
     },
     {
       id: 'bcom-prod-no-tags-web-fonts',
-      url: 'https://www.blinds.com/?nowebfonts=true&usedtm=false',
+      url: 'https://www.blinds.com/?usedtm=false&nowebfonts=true',
     },
     {
       id: 'bcom-dev',
