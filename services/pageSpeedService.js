@@ -32,8 +32,12 @@ const getPageSpeedPerformanceScoreForWebsite = async function(req, res) {
   if (!websiteId) {
     res.sendStatus(400);
   } else {
-    const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
-    res.status(200).json(scores);
+    try {
+      const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
+      res.status(200).json(scores);
+    } catch (err) {
+      res.sendStatus(500);
+    }
   }
 }
 
