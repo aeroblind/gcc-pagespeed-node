@@ -45,7 +45,7 @@ const createPageSpeedPerformanceScoreForWebsites = async function(websites) {
 }
 
 const getPageSpeedPerformanceScoreForWebsite = function(startAt, endAt, websiteId) {
-  debug('createPageSpeedPerformanceScoreForWebsites');
+  debug('getPageSpeedPerformanceScoreForWebsite');
   return db.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
 }
 

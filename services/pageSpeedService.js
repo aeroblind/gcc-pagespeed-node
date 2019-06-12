@@ -36,6 +36,7 @@ const getPageSpeedPerformanceScoreForWebsite = async function(req, res) {
       const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
       res.status(200).json(scores);
     } catch (err) {
+      console.error(err);
       res.sendStatus(500);
     }
   }

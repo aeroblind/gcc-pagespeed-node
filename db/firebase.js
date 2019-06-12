@@ -31,32 +31,53 @@ function writePageSpeedPerformanceByUrl(websiteId, data) {
   });
 }
 
-function getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId) {
+function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId) {
   return new Promise((resolve, reject) => {
+    if (endAt) {
       firestore.collection(websiteId)
-      .orderBy("lighthouseResult.fetchTime")
-      .startAt(startAt)
-      .endAt(endAt)
-      .select(
-        'lighthouseResult.fetchTime',
-        'lighthouseResult.audits.interactive',
-        'lighthouseResult.audits.speed-index',
-        'lighthouseResult.audits.first-cpu-idle',
-        'lighthouseResult.audits.first-contentful-paint',
-        'lighthouseResult.audits.first-meaningful-paint',
-        'lighthouseResult.categories.performance.score',
-        'lighthouseResult.categories.performance.auditRefs',
-      )
-      .get()
-      .then(snapshot => {
-        resolve(handleSnapshot(snapshot));
-      })
-      .catch(err => {
-        console.log(err);
-        reject(err);
-      })
+        .orderBy("lighthouseResult.fetchTime")
+        .startAt(startAt)
+        .endAt(endAt)
+        .select(
+          'lighthouseResult.fetchTime',
+          'lighthouseResult.audits.interactive',
+          'lighthouseResult.audits.speed-index',
+          'lighthouseResult.audits.first-cpu-idle',
+          'lighthouseResult.audits.first-contentful-paint',
+          'lighthouseResult.audits.first-meaningful-paint',
+          'lighthouseResult.categories.performance.score',
+          'lighthouseResult.categories.performance.auditRefs',
+        )
+        .get()
+        .then(snapshot => {
+          resolve(handleSnapshot(snapshot));
+        })
+        .catch(err => {
+          reject(err);
+        })
+    } else {
+      firestore.collection(websiteId)
+        .orderBy("lighthouseResult.fetchTime")
+        .startAt(startAt)
+        .select(
+          'lighthouseResult.fetchTime',
+          'lighthouseResult.audits.interactive',
+          'lighthouseResult.audits.speed-index',
+          'lighthouseResult.audits.first-cpu-idle',
+          'lighthouseResult.audits.first-contentful-paint',
+          'lighthouseResult.audits.first-meaningful-paint',
+          'lighthouseResult.categories.performance.score',
+          'lighthouseResult.categories.performance.auditRefs',
+        )
+        .get()
+        .then(snapshot => {
+          resolve(handleSnapshot(snapshot));
+        })
+        .catch(err => {
+          reject(err);
+        })
     }
-  );
+  });
 }
 
 module.exports = {
