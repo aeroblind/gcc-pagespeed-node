@@ -31,23 +31,26 @@ function writePageSpeedPerformanceByUrl(websiteId, data) {
   });
 }
 
-function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId) {
+function writeDailyStatisticsByWebsiteId(websiteId, data) {
+  return new Promise((resolve, reject) => {
+    firestore.collection('sites').doc(websiteId).collection('dailyStatistics').add(data)
+    .then((ref) => {
+      resolve(data);
+    })
+    .catch(err => {
+      reject(err);
+    })
+  });
+}
+
+function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId, dataFields) {
   return new Promise((resolve, reject) => {
     if (endAt) {
       firestore.collection(websiteId)
         .orderBy("lighthouseResult.fetchTime")
         .startAt(startAt)
         .endAt(endAt)
-        .select(
-          'lighthouseResult.fetchTime',
-          'lighthouseResult.audits.interactive',
-          'lighthouseResult.audits.speed-index',
-          'lighthouseResult.audits.first-cpu-idle',
-          'lighthouseResult.audits.first-contentful-paint',
-          'lighthouseResult.audits.first-meaningful-paint',
-          'lighthouseResult.categories.performance.score',
-          'lighthouseResult.categories.performance.auditRefs',
-        )
+        .select(...dataFields)
         .get()
         .then(snapshot => {
           resolve(handleSnapshot(snapshot));
@@ -59,16 +62,7 @@ function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId
       firestore.collection(websiteId)
         .orderBy("lighthouseResult.fetchTime")
         .startAt(startAt)
-        .select(
-          'lighthouseResult.fetchTime',
-          'lighthouseResult.audits.interactive',
-          'lighthouseResult.audits.speed-index',
-          'lighthouseResult.audits.first-cpu-idle',
-          'lighthouseResult.audits.first-contentful-paint',
-          'lighthouseResult.audits.first-meaningful-paint',
-          'lighthouseResult.categories.performance.score',
-          'lighthouseResult.categories.performance.auditRefs',
-        )
+        .select(...dataFields)
         .get()
         .then(snapshot => {
           resolve(handleSnapshot(snapshot));
@@ -83,4 +77,6 @@ function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId
 module.exports = {
   writePageSpeedPerformanceByUrl,
   getPageSpeedPerformanceScoreForWebsite,
+  writeDailyStatisticsByWebsiteId,
 }
+

@@ -1,3 +1,4 @@
+const moment = require('moment');
 
 function parsePageSpeedResults(data) {
 
@@ -18,6 +19,12 @@ function parsePageSpeedResults(data) {
     }
 }
 
+
+function isValidDateFormat(date, format) {
+  return moment(date, format, true).isValid();
+}
+
 module.exports = {
   parsePageSpeedResults,
+  isValidDateFormat,
 }

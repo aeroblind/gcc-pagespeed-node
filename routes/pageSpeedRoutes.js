@@ -6,4 +6,7 @@ router.get('/getPageSpeedPerformanceScoreForWebsite', pageSpeedService.getPageSp
 router.get('/createPageSpeedPerformanceScoreForGccWebsites', pageSpeedService.createPageSpeedPerformanceScoreForGccWebsites);
 router.get('/createPageSpeedPerformanceScoreForCompetitorWebsites', pageSpeedService.createPageSpeedPerformanceScoreForCompetitorWebsites);
 
+router.post('/calculateDailyStatisticsForGccWebsites', pageSpeedService.calculateDailyStatisticsForGccWebsites);
+
+
 module.exports = router;
