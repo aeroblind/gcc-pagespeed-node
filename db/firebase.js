@@ -1,5 +1,6 @@
 var admin = require("firebase-admin");
-var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-07e14fbb5b.json');
+//  var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-07e14fbb5b.json');
+var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-71b0ff1a58.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -31,23 +32,15 @@ function writePageSpeedPerformanceByUrl(websiteId, data) {
   });
 }
 
-function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId) {
+function getPageSpeedPerformanceScoreForWebsite(options) {
+  const { startAt, endAt, websiteId, fields } = options;
   return new Promise((resolve, reject) => {
     if (endAt) {
       firestore.collection(websiteId)
         .orderBy("lighthouseResult.fetchTime")
         .startAt(startAt)
         .endAt(endAt)
-        .select(
-          'lighthouseResult.fetchTime',
-          'lighthouseResult.audits.interactive',
-          'lighthouseResult.audits.speed-index',
-          'lighthouseResult.audits.first-cpu-idle',
-          'lighthouseResult.audits.first-contentful-paint',
-          'lighthouseResult.audits.first-meaningful-paint',
-          'lighthouseResult.categories.performance.score',
-          'lighthouseResult.categories.performance.auditRefs',
-        )
+        .select(...fields)
         .get()
         .then(snapshot => {
           resolve(handleSnapshot(snapshot));
@@ -59,16 +52,7 @@ function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId
       firestore.collection(websiteId)
         .orderBy("lighthouseResult.fetchTime")
         .startAt(startAt)
-        .select(
-          'lighthouseResult.fetchTime',
-          'lighthouseResult.audits.interactive',
-          'lighthouseResult.audits.speed-index',
-          'lighthouseResult.audits.first-cpu-idle',
-          'lighthouseResult.audits.first-contentful-paint',
-          'lighthouseResult.audits.first-meaningful-paint',
-          'lighthouseResult.categories.performance.score',
-          'lighthouseResult.categories.performance.auditRefs',
-        )
+        .select(...fields)
         .get()
         .then(snapshot => {
           resolve(handleSnapshot(snapshot));

@@ -7,6 +7,15 @@ const parsePageSpeedResults = require('../util/helpers').parsePageSpeedResults;
 const key = process.env.PAGESPEED_API_KEY;
 const baseUrl = config.pageSpeedBaseUrl;
 
+
+const createScoreByWebsiteIdObj = (websiteIds, scores) => {
+  const obj = {};
+  websiteIds.map( (id, index) => {
+    obj[id] = scores[index];
+  })
+  return obj;
+};
+
 const createPageSpeedUrl = (targetUrl) => {
   return `${baseUrl}?strategy=mobile&url=${targetUrl}&key=${key}`;
 }
@@ -44,14 +53,44 @@ const createPageSpeedPerformanceScoreForWebsites = async function(websites) {
   .catch(err => console.log(`Error - createPageSpeedPerformanceScoreForWebsites: ${err}`));
 }
 
-const getPageSpeedPerformanceScoreForWebsite = function(startAt, endAt, websiteId) {
+const getPageSpeedPerformanceScoreForWebsite = function(startAt, endAt = null, websiteId) {
   debug('getPageSpeedPerformanceScoreForWebsite');
-  return db.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId);
+  const options = {
+    startAt,
+    endAt,
+    websiteId,
+    fields: [
+      'lighthouseResult.fetchTime',
+      'lighthouseResult.audits.interactive',
+      'lighthouseResult.audits.speed-index',
+      'lighthouseResult.audits.first-cpu-idle',
+      'lighthouseResult.audits.first-contentful-paint',
+      'lighthouseResult.audits.first-meaningful-paint',
+      'lighthouseResult.categories.performance.score',
+      'lighthouseResult.categories.performance.auditRefs',
+    ],
+  }
+  return db.getPageSpeedPerformanceScoreForWebsite(options);
 }
 
-
+const getPageSpeedPerformanceScoreForWebsites = async function(startAt, endAt, websiteIds, fields) {
+  debug('getPageSpeedPerformanceScoreForWebsites');
+  const promises = [];
+  websiteIds.map( websiteId => {
+    const options = {
+      startAt,
+      endAt,
+      websiteId,
+      fields
+    }
+    promises.push(db.getPageSpeedPerformanceScoreForWebsite(options));
+  })
+  const results = await Promise.all(promises);
+  return createScoreByWebsiteIdObj(websiteIds, results);
+}
 
 module.exports = {
   createPageSpeedPerformanceScoreForWebsites,
-  getPageSpeedPerformanceScoreForWebsite
+  getPageSpeedPerformanceScoreForWebsite,
+  getPageSpeedPerformanceScoreForWebsites
 }

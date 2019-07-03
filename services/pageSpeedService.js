@@ -42,10 +42,27 @@ const getPageSpeedPerformanceScoreForWebsite = async function(req, res) {
   }
 }
 
+const getPageSpeedPerformanceScoreForWebsites = async function(req, res) {
+  debug('getPageSpeedPerformanceScoreForWebsite');
+  const { startAt, endAt, websiteIds, fields } = req.body;
+  if (!websiteIds || websiteIds.length === 0) {
+    res.sendStatus(400);
+  } else {
+    try {
+      const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsites(startAt, endAt, websiteIds, fields);
+      res.status(200).json(scores);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+}
+
 
 getPageSpeedPerformanceScoreForWebsite
 module.exports = {
   createPageSpeedPerformanceScoreForGccWebsites,
   createPageSpeedPerformanceScoreForCompetitorWebsites,
-  getPageSpeedPerformanceScoreForWebsite
+  getPageSpeedPerformanceScoreForWebsite,
+  getPageSpeedPerformanceScoreForWebsites,
 }
