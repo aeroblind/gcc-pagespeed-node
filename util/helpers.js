@@ -18,6 +18,17 @@ function parsePageSpeedResults(data) {
     }
 }
 
+function parseScoreFromLighthouseResults(results) {
+  return results.map(result => {
+    let scores = []
+    result.map(score => {
+      scores.push(score.lighthouseResult.categories.performance.score)
+    });
+    return scores;
+  })
+}
+
 module.exports = {
   parsePageSpeedResults,
+  parseScoreFromLighthouseResults,
 }

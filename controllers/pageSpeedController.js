@@ -3,15 +3,19 @@ const axios = require('axios');
 const db = require('../db/firebase');
 const config = require('../config');
 const parsePageSpeedResults = require('../util/helpers').parsePageSpeedResults;
+const parseScoreFromLighthouseResults = require('../util/helpers').parseScoreFromLighthouseResults;
+const calculateMedian = require('../util/statistics').calculateMedian;
+
+
 
 const key = process.env.PAGESPEED_API_KEY;
 const baseUrl = config.pageSpeedBaseUrl;
 
 
-const createScoreByWebsiteIdObj = (websiteIds, scores) => {
+const createScoreByWebsiteIdObj = (websiteObjs, scores) => {
   const obj = {};
-  websiteIds.map( (id, index) => {
-    obj[id] = scores[index];
+  websiteObjs.map( (websiteObj, index) => {
+    obj[websiteObj.websiteId] = scores[index];
   })
   return obj;
 };
@@ -73,24 +77,51 @@ const getPageSpeedPerformanceScoreForWebsite = function(startAt, endAt = null, w
   return db.getPageSpeedPerformanceScoreForWebsite(options);
 }
 
-const getPageSpeedPerformanceScoreForWebsites = async function(startAt, endAt, websiteIds, fields) {
+const getPageSpeedPerformanceScoreForWebsites = async function(websiteIdsWithTime, fields) {
   debug('getPageSpeedPerformanceScoreForWebsites');
   const promises = [];
-  websiteIds.map( websiteId => {
+  const parsedWebsiteObjs = [];
+  websiteIdsWithTime.map( w => {
+    const parsedObj = JSON.parse(w);
+    parsedWebsiteObjs.push(parsedObj);
     const options = {
-      startAt,
-      endAt,
-      websiteId,
+      startAt: parsedObj.startAt,
+      endAt: parsedObj.endAt,
+      websiteId: parsedObj.websiteId,
       fields
     }
     promises.push(db.getPageSpeedPerformanceScoreForWebsite(options));
   })
   const results = await Promise.all(promises);
-  return createScoreByWebsiteIdObj(websiteIds, results);
+  return createScoreByWebsiteIdObj(parsedWebsiteObjs, results);
+}
+
+const getStatisticsForWebsites = async function(websiteData) {
+  debug('getStatisticsForWebsites');
+  const promises = [];
+  const jsonParsedWebsiteData = [];
+  websiteData.map( data => {
+    const jsonData = JSON.parse(data);
+    jsonParsedWebsiteData.push(jsonData);
+    const options = {
+      startAt: jsonData.startAt,
+      endAt: jsonData.endAt,
+      websiteId: jsonData.websiteId,
+      fields: jsonData.fields,
+    }
+    promises.push(db.getPageSpeedPerformanceScoreForWebsite(options));
+  })
+  const results = await Promise.all(promises);
+  const parsedScoreValues = parseScoreFromLighthouseResults(results);
+  const medianScores = parsedScoreValues.map( values => {
+    return calculateMedian(values) * 100;
+  })
+  return createScoreByWebsiteIdObj(jsonParsedWebsiteData, medianScores);
 }
 
 module.exports = {
   createPageSpeedPerformanceScoreForWebsites,
   getPageSpeedPerformanceScoreForWebsite,
-  getPageSpeedPerformanceScoreForWebsites
+  getPageSpeedPerformanceScoreForWebsites,
+  getStatisticsForWebsites,
 }

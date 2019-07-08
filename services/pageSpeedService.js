@@ -44,12 +44,28 @@ const getPageSpeedPerformanceScoreForWebsite = async function(req, res) {
 
 const getPageSpeedPerformanceScoreForWebsites = async function(req, res) {
   debug('getPageSpeedPerformanceScoreForWebsite');
-  const { startAt, endAt, websiteIds, fields } = req.body;
-  if (!websiteIds || websiteIds.length === 0) {
+  const { websiteIdsWithTime, fields } = req.query;
+  if (!websiteIdsWithTime || websiteIdsWithTime.length === 0) {
     res.sendStatus(400);
   } else {
     try {
-      const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsites(startAt, endAt, websiteIds, fields);
+      const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsites(websiteIdsWithTime, fields);
+      res.status(200).json(scores);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+}
+
+const getStatisticsForWebsites = async function(req, res) {
+  debug('getStatisticsForWebsites');
+  const { websiteData } = req.query;
+  if (!websiteData || websiteData.length === 0) {
+    res.sendStatus(400);
+  } else {
+    try {
+      const scores = await pageSpeedController.getStatisticsForWebsites(websiteData);
       res.status(200).json(scores);
     } catch (err) {
       console.error(err);
@@ -65,4 +81,5 @@ module.exports = {
   createPageSpeedPerformanceScoreForCompetitorWebsites,
   getPageSpeedPerformanceScoreForWebsite,
   getPageSpeedPerformanceScoreForWebsites,
+  getStatisticsForWebsites,
 }
