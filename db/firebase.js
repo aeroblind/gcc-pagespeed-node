@@ -1,6 +1,6 @@
 var admin = require("firebase-admin");
-//  var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-07e14fbb5b.json');
-var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-71b0ff1a58.json');
+var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-07e14fbb5b.json');
+//  var serviceAccount = require('../mobile-performance-seo-firebase-adminsdk-efn8z-71b0ff1a58.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
