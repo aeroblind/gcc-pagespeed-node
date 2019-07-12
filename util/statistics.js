@@ -36,5 +36,6 @@ function calculateMedian(values){
 
 
 module.exports = {
-  getStatistics
+  getStatistics,
+  calculateMedian,
 }

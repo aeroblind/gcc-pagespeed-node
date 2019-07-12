@@ -43,14 +43,15 @@ function writeDailyStatisticsByWebsiteId(websiteId, data) {
   });
 }
 
-function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId, dataFields) {
+function getPageSpeedPerformanceScoreForWebsite(options) {
+  const { startAt, endAt, websiteId, fields } = options;
   return new Promise((resolve, reject) => {
     if (endAt) {
       firestore.collection(websiteId)
         .orderBy("lighthouseResult.fetchTime")
         .startAt(startAt)
         .endAt(endAt)
-        .select(...dataFields)
+        .select(...fields)
         .get()
         .then(snapshot => {
           resolve(handleSnapshot(snapshot));
@@ -62,7 +63,7 @@ function getPageSpeedPerformanceScoreForWebsite(startAt, endAt = null, websiteId
       firestore.collection(websiteId)
         .orderBy("lighthouseResult.fetchTime")
         .startAt(startAt)
-        .select(...dataFields)
+        .select(...fields)
         .get()
         .then(snapshot => {
           resolve(handleSnapshot(snapshot));
@@ -79,4 +80,3 @@ module.exports = {
   getPageSpeedPerformanceScoreForWebsite,
   writeDailyStatisticsByWebsiteId,
 }
-

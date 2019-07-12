@@ -1,5 +1,4 @@
 
-
 module.exports = {
   gccWebsites: [
     {
@@ -32,43 +31,43 @@ module.exports = {
     },
     {
       id: 'bcom-prod-plp',
-      url: 'https://www.blinds.com/c/faux-wood-blinds/54',
+      url: 'https://www.blinds.com/c/faux-wood-blinds/40',
     },
     {
       id: 'bcom-prod-plp-no-tags',
-      url: 'https://www.blinds.com/c/faux-wood-blinds/54?usedtm=false',
+      url: 'https://www.blinds.com/c/faux-wood-blinds/40?usedtm=false',
     },
     {
       id: 'bcom-dev-plp',
-      url: 'https://dev.autobahn.blinds.com/c/faux-wood-blinds/54',
+      url: 'https://dev.autobahn.blinds.com/c/faux-wood-blinds/40',
     },
     {
       id: 'bcom-stage-plp',
-      url: 'http://stage.autobahn.blinds.com/c/faux-wood-blinds/54',
+      url: 'http://stage.autobahn.blinds.com/c/faux-wood-blinds/40',
     },
     {
       id: 'bcom-uat-plp',
-      url: 'http://uat.autobahn.blinds.com/c/faux-wood-blinds/54',
+      url: 'http://uat.autobahn.blinds.com/c/faux-wood-blinds/40',
     },
     {
       id: 'bcom-prod-pip',
-      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
+      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503426',
     },
     {
       id: 'bcom-prod-pip-no-tags',
-      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503439/?usedtm=false',
+      url: 'https://www.blinds.com/p/levolor-visions-2-faux-wood-blind/503426/?usedtm=false',
     },
     {
       id: 'bcom-dev-pip',
-      url: 'https://dev.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
+      url: 'https://dev.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503426',
     },
     {
       id: 'bcom-stage-pip',
-      url: 'http://stage.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
+      url: 'http://stage.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503426',
     },
     {
       id: 'bcom-uat-pip',
-      url: 'http://uat.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503439',
+      url: 'http://uat.autobahn.blinds.com/p/levolor-visions-2-faux-wood-blind/503426',
     },
   ],
   competitorWebsites: [

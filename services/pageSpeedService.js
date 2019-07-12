@@ -43,6 +43,22 @@ const getPageSpeedPerformanceScoreForWebsite = async function(req, res) {
   }
 }
 
+const getPageSpeedPerformanceScoreForWebsites = async function(req, res) {
+  debug('getPageSpeedPerformanceScoreForWebsite');
+  const { websiteIdsWithTime, fields } = req.query;
+  if (!websiteIdsWithTime || websiteIdsWithTime.length === 0) {
+    res.sendStatus(400);
+  } else {
+    try {
+      const scores = await pageSpeedController.getPageSpeedPerformanceScoreForWebsites(websiteIdsWithTime, fields);
+      res.status(200).json(scores);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+}
+
 const calculateDailyStatisticsForGccWebsites = async function(req, res) {
   debug('calculateDailyStatisticsForGccWebsites');
   const dateFormat = "MM/DD/YYYY";
@@ -60,11 +76,27 @@ const calculateDailyStatisticsForGccWebsites = async function(req, res) {
   }
 }
 
+const getStatisticsForWebsites = async function(req, res) {
+  debug('getStatisticsForWebsites');
+  const { websiteData } = req.query;
+  if (!websiteData || websiteData.length === 0) {
+    res.sendStatus(400);
+  } else {
+    try {
+      const scores = await pageSpeedController.getStatisticsForWebsites(websiteData);
+      res.status(200).json(scores);
+    } catch (err) {
+      console.error(err);
+      res.sendStatus(500);
+    }
+  }
+}
 
-getPageSpeedPerformanceScoreForWebsite
 module.exports = {
   createPageSpeedPerformanceScoreForGccWebsites,
   createPageSpeedPerformanceScoreForCompetitorWebsites,
   getPageSpeedPerformanceScoreForWebsite,
-  calculateDailyStatisticsForGccWebsites
+  calculateDailyStatisticsForGccWebsites,
+  getPageSpeedPerformanceScoreForWebsites,
+  getStatisticsForWebsites,
 }

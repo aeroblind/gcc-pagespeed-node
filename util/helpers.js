@@ -19,6 +19,16 @@ function parsePageSpeedResults(data) {
     }
 }
 
+function parseScoreFromLighthouseResults(results) {
+  return results.map(result => {
+    let scores = []
+    result.map(score => {
+      scores.push(score.lighthouseResult.categories.performance.score)
+    });
+    return scores;
+  })
+}
+
 
 function isValidDateFormat(date, format) {
   return moment(date, format, true).isValid();
@@ -27,4 +37,5 @@ function isValidDateFormat(date, format) {
 module.exports = {
   parsePageSpeedResults,
   isValidDateFormat,
+  parseScoreFromLighthouseResults,
 }

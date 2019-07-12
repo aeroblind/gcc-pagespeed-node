@@ -3,11 +3,19 @@ const axios = require('axios');
 const moment = require('moment');
 const db = require('../db/firebase');
 const config = require('../config');
-const parsePageSpeedResults = require('../util/helpers').parsePageSpeedResults;
-const { getStatistics } = require('../util/statistics');
+const { parseScoreFromLighthouseResults }  = require('../util/helpers');
+const { getStatistics, calculateMedian } = require('../util/statistics');
 
 const key = process.env.PAGESPEED_API_KEY;
 const baseUrl = config.pageSpeedBaseUrl;
+
+const createScoreByWebsiteIdObj = (websiteObjs, scores) => {
+  const obj = {};
+  websiteObjs.map( (websiteObj, index) => {     
+    obj[websiteObj.websiteId] = scores[index];
+  })
+  return obj;
+};
 
 const createPageSpeedUrl = (targetUrl) => {
   return `${baseUrl}?strategy=mobile&url=${targetUrl}&key=${key}`;
@@ -61,6 +69,25 @@ const getPageSpeedPerformanceScoreForWebsite = function(startAt, endAt, websiteI
   return db.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, websiteId, dataFields);
 }
 
+const getPageSpeedPerformanceScoreForWebsites = async function(websiteIdsWithTime, fields) {
+  debug('getPageSpeedPerformanceScoreForWebsites');
+  const promises = [];
+  const parsedWebsiteObjs = [];
+  websiteIdsWithTime.map( w => {
+    const parsedObj = JSON.parse(w);
+    parsedWebsiteObjs.push(parsedObj);
+    const options = {
+      startAt: parsedObj.startAt,
+      endAt: parsedObj.endAt,
+      websiteId: parsedObj.websiteId,
+      fields
+    }
+    promises.push(db.getPageSpeedPerformanceScoreForWebsite(options));
+  })
+  const results = await Promise.all(promises);
+  return createScoreByWebsiteIdObj(parsedWebsiteObjs, results);
+}
+
 const calculateDailyStatisticsForWebsites = async function(date, websites) {
   debug('calculateDailyStatisticsForGccWebsites');
 
@@ -111,10 +138,35 @@ const calculateDailyStatisticsForWebsites = async function(date, websites) {
   .catch(err => console.log(`Error - calculateDailyStatisticsForWebsites: ${err}`));
 }
 
+const getStatisticsForWebsites = async function(websiteData) {
+  debug('getStatisticsForWebsites');
+  const promises = [];
+  const jsonParsedWebsiteData = [];
+  websiteData.map( data => {
+    const jsonData = JSON.parse(data);
+    jsonParsedWebsiteData.push(jsonData);
+    const options = {
+      startAt: jsonData.startAt,
+      endAt: jsonData.endAt,
+      websiteId: jsonData.websiteId,
+      fields: jsonData.fields,
+    }
+    promises.push(db.getPageSpeedPerformanceScoreForWebsite(options));
+  })
+  const results = await Promise.all(promises);
+  const parsedScoreValues = parseScoreFromLighthouseResults(results);
+  const medianScores = parsedScoreValues.map( values => {
+    return calculateMedian(values) * 100;
+  })
+  return createScoreByWebsiteIdObj(jsonParsedWebsiteData, medianScores);
+}
+
 
 
 module.exports = {
   createPageSpeedPerformanceScoreForWebsites,
   getPageSpeedPerformanceScoreForWebsite,
-  calculateDailyStatisticsForWebsites
+  getPageSpeedPerformanceScoreForWebsites,
+  calculateDailyStatisticsForWebsites,
+  getStatisticsForWebsites,
 }
