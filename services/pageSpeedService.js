@@ -86,8 +86,9 @@ const getStatisticsForWebsites = async function(req, res) {
       const scores = await pageSpeedController.getStatisticsForWebsites(websiteData);
       res.status(200).json(scores);
     } catch (err) {
+      console.log('dog');
       console.error(err);
-      res.sendStatus(500);
+      res.sendStatus(501);
     }
   }
 }

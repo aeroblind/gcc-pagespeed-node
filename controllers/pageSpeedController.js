@@ -91,11 +91,7 @@ const getPageSpeedPerformanceScoreForWebsites = async function(websiteIdsWithTim
 const calculateDailyStatisticsForWebsites = async function(date, websites) {
   debug('calculateDailyStatisticsForGccWebsites');
 
-  const dailyStatistics = [];
-
-  const startAt = moment(date, "MM/DD/YYYY").utc().format();
-  const endAt= moment(date, "MM/DD/YYYY").add(1, 'days').utc().format();
-  const dataFields = [
+  const fields = [
     'lighthouseResult.categories.performance.score',
   ]
 
@@ -103,18 +99,13 @@ const calculateDailyStatisticsForWebsites = async function(date, websites) {
   const writePromises = [];
 
   websites.map(website => {
-    getPromises.push(db.getPageSpeedPerformanceScoreForWebsite(startAt, endAt, website.id, dataFields))
-    // .then(rawScores => {
-    //   const scores = rawScores.map(score => score.lighthouseResult.categories.performance.score);
-      // const data = {
-      //   date,
-      //   statistics: getStatistics(scores)
-      // };
-    //   return db.writeDailyStatisticsByWebsiteId(website, data);
-    // })
-    // .then(results => {
-    //   dailyStatistics.push(results);
-    // })
+    const options = {
+      startAt: moment(date, "MM/DD/YYYY").utc().format(),
+      endAt: moment(date, "MM/DD/YYYY").add(1, 'days').utc().format(),
+      websiteId: website.id,
+      fields,
+    }
+    getPromises.push(db.getPageSpeedPerformanceScoreForWebsite(options))
   });
 
 
@@ -135,7 +126,6 @@ const calculateDailyStatisticsForWebsites = async function(date, websites) {
     })
     return Promise.all(writePromises);
   })
-  .catch(err => console.log(`Error - calculateDailyStatisticsForWebsites: ${err}`));
 }
 
 const getStatisticsForWebsites = async function(websiteData) {

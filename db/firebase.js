@@ -31,11 +31,51 @@ function writePageSpeedPerformanceByUrl(websiteId, data) {
   });
 }
 
-function writeDailyStatisticsByWebsiteId(websiteId, data) {
+async function createDocument(ref, data) {
   return new Promise((resolve, reject) => {
-    firestore.collection('sites').doc(websiteId).collection('dailyStatistics').add(data)
-    .then((ref) => {
-      resolve(data);
+    try {
+      ref.add(data)
+      .then(_ => {
+        resolve(data);
+      })
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
+
+function updateDocument(snapshot, ref, data) {
+  return new Promise((resolve, reject) => {
+    try {
+      snapshot.forEach( doc => {
+        ref.doc(doc.id).update(data);
+      });
+      resolve(data)
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
+
+function handleDailyStatisticSnapshot(snapshot, ref, data) {
+  if (snapshot.empty) {
+    return createDocument(ref, data);
+  } else {
+    return updateDocument(snapshot, ref, data)
+  }
+}
+
+async function writeDailyStatisticsByWebsiteId(websiteId, data) {
+  return new Promise((resolve, reject) => {
+    const ref = firestore.collection('sites').doc(websiteId).collection('dailyStatistics')
+    ref
+    .where("date", "==", data.date)
+    .get()
+    .then(snapshot => {
+      return handleDailyStatisticSnapshot(snapshot, ref, data)
+    })
+    .then(results => {
+      resolve(results);
     })
     .catch(err => {
       reject(err);
